@@ -9,7 +9,53 @@
 </head>
 
 <body>
+  <script>
+    function outer() {
+      const outerVar = "I'm the outer var";
+      function inner() {
+        const innerVar = "Hey I'm the inner var";
 
+        console.log(innerVar);
+        console.log(outerVar);
+      }
+      return inner;
+    }
+
+    const innerFn = outer();
+    // Closure: even though outer() is done, it can still access
+    // variables that were used in the function
+    innerFn();
+
+    // Closure allows us to access the variables inside this
+    // createGreeting function at a later time
+    function createGreeting(greeting = '') {
+      const myGreet = greeting.toUpperCase();
+      return function (name) {
+        return `${myGreet} ${name}`;
+      };
+    }
+
+    const sayHello = createGreeting('hello');
+    const sayHey = createGreeting('hey');
+
+    console.log(sayHello('felice'));
+    console.log(sayHello('ria'));
+    console.log(sayHey('ria'));
+
+    // Private variables
+    function createGame(gameName) {
+      let score = 0;
+      return function win() {
+        score++;
+        return `Your name ${gameName} score is ${score}`;
+      };
+    }
+
+    // Closure allows us to maintain private variables for
+    // each time a game is created
+    const hockeyGame = createGame('Hockey');
+    const soccerGame = createGame('Soccer');
+  </script>
 </body>
 
 </html>
